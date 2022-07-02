@@ -11,12 +11,18 @@ const fetchData = async searchTerm => {
 	console.log(response.data);
 };
 
-let timerID;
+const debounce = (f, delay = 1000) => {
+	let timerID;
+	return (...args) => {
+		if (timerID) clearTimeout(timerID);
+		timerID = setTimeout(() => {
+			f.apply(null, args);
+		}, delay);
+	};
+};
+
 function onInput(event) {
-	if (timerID) clearTimeout(timerID);
-	timerID = setTimeout(() => {
-		fetchData(event.target.value);
-	}, 1000);
+	fetchData(event.target.value);
 }
 
-input.addEventListener('input', onInput);
+input.addEventListener('input', debounce(onInput));
