@@ -8,11 +8,12 @@ const fetchData = async searchTerm => {
 		},
 	});
 
-	console.log(response.data);
+	return response.data.Search;
 };
 
-function onInput(event) {
-	fetchData(event.target.value);
+async function onInput(event) {
+	const movies = await fetchData(event.target.value);
+	console.log(movies);
 }
 
 input.addEventListener('input', debounce(onInput));
