@@ -71,4 +71,10 @@ createAutoComplete({
 			${movie.Title}
 		`;
 	},
+	onOptionSelect(movie) {
+		onMovieSelect(movie.imdbID);
+	},
+	inputValue(movie) {
+		return movie.Title;
+	},
 });
