@@ -63,4 +63,12 @@ async function onMovieSelect(id) {
 
 createAutoComplete({
 	root: document.querySelector('.autocomplete'),
+	renderOption(movie) {
+		const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
+
+		return `
+			<img src="${imgSrc}" alt="" />
+			${movie.Title}
+		`;
+	},
 });
