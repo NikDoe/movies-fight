@@ -1,4 +1,4 @@
-const autoCompleteObject = {
+const autoCompleteConfig = {
 	renderOption(movie) {
 		const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
 
@@ -8,6 +8,7 @@ const autoCompleteObject = {
 		`;
 	},
 	onOptionSelect(movie) {
+		document.querySelector('.tutorial').classList.add('is-hidden');
 		onMovieSelect(movie.imdbID);
 	},
 	inputValue(movie) {
@@ -78,11 +79,11 @@ async function onMovieSelect(id) {
 }
 
 createAutoComplete({
-	...autoCompleteObject,
+	...autoCompleteConfig,
 	root: document.querySelector('#left-autocomplete'),
 });
 
 createAutoComplete({
-	...autoCompleteObject,
+	...autoCompleteConfig,
 	root: document.querySelector('#right-autocomplete'),
 });
