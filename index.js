@@ -7,10 +7,6 @@ const autoCompleteConfig = {
 			${movie.Title}
 		`;
 	},
-	onOptionSelect(movie) {
-		document.querySelector('.tutorial').classList.add('is-hidden');
-		onMovieSelect(movie.imdbID);
-	},
 	inputValue(movie) {
 		return movie.Title;
 	},
@@ -67,7 +63,7 @@ const movieTemplate = movieDetail => {
   `;
 };
 
-async function onMovieSelect(id) {
+async function onMovieSelect(id, summaryElement) {
 	const response = await axios.get('http://www.omdbapi.com/', {
 		params: {
 			apikey: 'ee463b02',
@@ -75,15 +71,23 @@ async function onMovieSelect(id) {
 		},
 	});
 
-	document.querySelector('#target').innerHTML = movieTemplate(response.data);
+	summaryElement.innerHTML = movieTemplate(response.data);
 }
 
 createAutoComplete({
 	...autoCompleteConfig,
 	root: document.querySelector('#left-autocomplete'),
+	onOptionSelect(movie) {
+		document.querySelector('.tutorial').classList.add('is-hidden');
+		onMovieSelect(movie.imdbID, document.querySelector('#left-summary'));
+	},
 });
 
 createAutoComplete({
 	...autoCompleteConfig,
 	root: document.querySelector('#right-autocomplete'),
+	onOptionSelect(movie) {
+		document.querySelector('.tutorial').classList.add('is-hidden');
+		onMovieSelect(movie.imdbID, document.querySelector('#right-summary'));
+	},
 });
