@@ -30,6 +30,11 @@ const fetchData = async searchTerm => {
 async function onInput(event) {
 	const movies = await fetchData(event.target.value.trim());
 
+	if (!movies.length) {
+		dropdown.classList.remove('is-active');
+		return;
+	}
+
 	resultsWrapper.innerHTML = '';
 	dropdown.classList.add('is-active');
 	for (const movie of movies) {
