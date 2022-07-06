@@ -10,6 +10,25 @@ root.innerHTML = `
   </div>
 `;
 
+const movieTemplate = movieDetail => {
+	return `
+    <article class="media">
+      <figure class="media-left">
+        <p class="image">
+          <img src="${movieDetail.Poster}" alt="" />
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="content">
+          <h1>${movieDetail.Title}</h1>
+          <h4>${movieDetail.Genre}</h4>
+          <p>${movieDetail.Plot}</p>
+        </div>
+      </div>
+    </article>
+  `;
+};
+
 const input = document.querySelector('input');
 const dropdown = document.querySelector('.dropdown');
 const resultsWrapper = document.querySelector('.results');
@@ -34,7 +53,8 @@ async function onMovieSelect(id) {
 			i: id,
 		},
 	});
-	console.log(response.data);
+
+	document.querySelector('#target').innerHTML = movieTemplate(response.data);
 }
 
 async function onInput(event) {
