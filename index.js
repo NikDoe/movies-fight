@@ -37,19 +37,6 @@ const movieTemplate = movieDetail => {
   `;
 };
 
-const fetchData = async searchTerm => {
-	const response = await axios.get('http://www.omdbapi.com/', {
-		params: {
-			apikey: 'ee463b02',
-			s: searchTerm,
-		},
-	});
-
-	if (response.data.Error) return [];
-
-	return response.data.Search;
-};
-
 async function onMovieSelect(id) {
 	const response = await axios.get('http://www.omdbapi.com/', {
 		params: {
@@ -76,5 +63,17 @@ createAutoComplete({
 	},
 	inputValue(movie) {
 		return movie.Title;
+	},
+	async fetchData(searchTerm) {
+		const response = await axios.get('http://www.omdbapi.com/', {
+			params: {
+				apikey: 'ee463b02',
+				s: searchTerm,
+			},
+		});
+
+		if (response.data.Error) return [];
+
+		return response.data.Search;
 	},
 });
