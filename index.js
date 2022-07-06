@@ -28,7 +28,7 @@ const fetchData = async searchTerm => {
 };
 
 async function onInput(event) {
-	const movies = await fetchData(event.target.value);
+	const movies = await fetchData(event.target.value.trim());
 
 	resultsWrapper.innerHTML = '';
 	dropdown.classList.add('is-active');
