@@ -1,3 +1,32 @@
+const autoCompleteObject = {
+	renderOption(movie) {
+		const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
+
+		return `
+			<img src="${imgSrc}" alt="" />
+			${movie.Title}
+		`;
+	},
+	onOptionSelect(movie) {
+		onMovieSelect(movie.imdbID);
+	},
+	inputValue(movie) {
+		return movie.Title;
+	},
+	async fetchData(searchTerm) {
+		const response = await axios.get('http://www.omdbapi.com/', {
+			params: {
+				apikey: 'ee463b02',
+				s: searchTerm,
+			},
+		});
+
+		if (response.data.Error) return [];
+
+		return response.data.Search;
+	},
+};
+
 const movieTemplate = movieDetail => {
 	return `
     <article class="media">
@@ -49,31 +78,11 @@ async function onMovieSelect(id) {
 }
 
 createAutoComplete({
-	root: document.querySelector('.autocomplete'),
-	renderOption(movie) {
-		const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
+	...autoCompleteObject,
+	root: document.querySelector('#left-autocomplete'),
+});
 
-		return `
-			<img src="${imgSrc}" alt="" />
-			${movie.Title}
-		`;
-	},
-	onOptionSelect(movie) {
-		onMovieSelect(movie.imdbID);
-	},
-	inputValue(movie) {
-		return movie.Title;
-	},
-	async fetchData(searchTerm) {
-		const response = await axios.get('http://www.omdbapi.com/', {
-			params: {
-				apikey: 'ee463b02',
-				s: searchTerm,
-			},
-		});
-
-		if (response.data.Error) return [];
-
-		return response.data.Search;
-	},
+createAutoComplete({
+	...autoCompleteObject,
+	root: document.querySelector('#right-autocomplete'),
 });
