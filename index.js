@@ -63,7 +63,13 @@ const movieTemplate = movieDetail => {
   `;
 };
 
-async function onMovieSelect(id, summaryElement) {
+let movieLeft, movieRight;
+
+function runComparison() {
+	console.log('lets GOOOO!!!');
+}
+
+async function onMovieSelect(id, summaryElement, side) {
 	const response = await axios.get('http://www.omdbapi.com/', {
 		params: {
 			apikey: 'ee463b02',
@@ -72,6 +78,11 @@ async function onMovieSelect(id, summaryElement) {
 	});
 
 	summaryElement.innerHTML = movieTemplate(response.data);
+
+	if (side === 'left') movieLeft = response.data;
+	else movieRight = response.data;
+
+	if (movieLeft && movieRight) runComparison();
 }
 
 createAutoComplete({
@@ -79,7 +90,11 @@ createAutoComplete({
 	root: document.querySelector('#left-autocomplete'),
 	onOptionSelect(movie) {
 		document.querySelector('.tutorial').classList.add('is-hidden');
-		onMovieSelect(movie.imdbID, document.querySelector('#left-summary'));
+		onMovieSelect(
+			movie.imdbID,
+			document.querySelector('#left-summary'),
+			'left',
+		);
 	},
 });
 
@@ -88,6 +103,10 @@ createAutoComplete({
 	root: document.querySelector('#right-autocomplete'),
 	onOptionSelect(movie) {
 		document.querySelector('.tutorial').classList.add('is-hidden');
-		onMovieSelect(movie.imdbID, document.querySelector('#right-summary'));
+		onMovieSelect(
+			movie.imdbID,
+			document.querySelector('#right-summary'),
+			'right',
+		);
 	},
 });
